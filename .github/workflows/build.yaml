@@ -1,0 +1,30 @@
+name: Build Delta
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-14  # Xcode 15（iOS 17 SDK）が動く環境を指定
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive' # ⚠️超重要：エミュレータのコアをダウンロードする
+
+    - name: Setup CocoaPods
+      run: pod install
+
+    - name: Compile and Build IPA
+      run: |
+        xcodebuild -workspace Delta.xcworkspace \
+                   -scheme Delta \
+                   -configuration Release \
+                   -sdk iphoneos \
+                   CODE_SIGNING_ALLOWED=NO \
+                   CODE_SIGNING_REQUIRED=NO \
+                   CODE_SIGN_IDENTITY="" \
+                   PROVISIONING_PROFILE_SPECIFIER="" \
+                   clean build
+                   
+    # ビルドに成功したら、生成されたバイナリをZip(IPA)化してGitHubからダウンロードできるようにするステップをここに追記
