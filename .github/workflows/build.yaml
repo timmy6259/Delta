@@ -17,14 +17,14 @@ jobs:
 
     - name: Compile and Build IPA
       run: |
-        xcodebuild -workspace Delta.xcworkspace \
-                   -scheme Delta \
-                   -configuration Release \
-                   -sdk iphoneos \
-                   CODE_SIGNING_ALLOWED=NO \
-                   CODE_SIGNING_REQUIRED=NO \
-                   CODE_SIGN_IDENTITY="" \
-                   PROVISIONING_PROFILE_SPECIFIER="" \
-                   clean build
+           xcodebuild -workspace Delta.xcworkspace \
+           -scheme Delta \
+           -configuration Release \
+           -sdk iphoneos \
+           -jobs 4 \
+           CODE_SIGNING_ALLOWED=NO \
+           CODE_SIGNING_REQUIRED=NO \
+           clean build
+
                    
     # ビルドに成功したら、生成されたバイナリをZip(IPA)化してGitHubからダウンロードできるようにするステップをここに追記
