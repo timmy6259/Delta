@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: macos-14  # Xcode 15（iOS 17 SDK）が動く環境を指定
+    runs-on: macos-15  # Xcode 15（iOS 17 SDK）が動く環境を指定
 
     steps:
     - name: Checkout Source Code
